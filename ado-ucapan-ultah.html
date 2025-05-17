@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kado Ucapan Ulang Tahun</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ffafbd, #ffc3a0);
+      color: #3a3a3a;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 15px 50px 15px;
+      scroll-behavior: smooth;
+    }
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      animation: floatText 3s ease-in-out infinite alternate;
+      user-select: none;
+      color: #ff6f91;
+    }
+    @keyframes floatText {
+      0% { transform: translateY(0); color: #ff6f91; }
+      50% { transform: translateY(-15px); color: #ff9671; }
+      100% { transform: translateY(0); color: #ff6f91; }
+    }
+    form {
+      background: #fff0f6;
+      padding: 25px 30px;
+      border-radius: 15px;
+      box-shadow: 0 6px 20px rgba(255,111,145,0.3);
+      width: 100%;
+      max-width: 400px;
+      margin-bottom: 40px;
+      user-select: none;
+    }
+    label {
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+    input[type="text"], input[type="date"], select {
+      font-size: 1rem;
+      padding: 10px 12px;
+      margin-bottom: 20px;
+      width: 100%;
+      border-radius: 8px;
+      border: 2px solid #ff6f91;
+      outline-offset: 2px;
+      transition: outline-color 0.3s ease;
+    }
+    input[type="text"]:focus, input[type="date"]:focus, select:focus {
+      outline: 3px solid #ff355e;
+    }
+    button {
+      background: #ff6f91;
+      color: white;
+      font-weight: 700;
+      padding: 14px 38px;
+      font-size: 1.3rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(255,111,145,0.6);
+      transition: background 0.3s ease;
+      user-select: none;
+      display: inline-block;
+      margin: 10px 5px 0 5px;
+    }
+    button:hover:enabled {
+      background: #ff355e;
+      box-shadow: 0 8px 20px rgba(255,53,94,0.8);
+    }
+    button:disabled {
+      background: #ffb0bf;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+    #questionnaire, #result {
+      max-width: 450px;
+      width: 100%;
+      background: #fff0f6;
+      border-radius: 15px;
+      padding: 25px 30px;
+      box-shadow: 0 6px 20px rgba(255,111,145,0.3);
+      margin-bottom: 40px;
+      display: none;
+      user-select: text;
+      position: relative;
+      overflow: hidden;
+      min-height: 250px;
+    }
+    #questionnaire h2, #result h2 {
+      color: #ff4d6d;
+      user-select: none;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-weight: 800;
+      font-size: 2rem;
+      text-align: center;
+      animation: pulseColor 2.5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseColor {
+      0%,100% { color: #ff4d6d; }
+      50% { color: #ff7a9b; }
+    }
+    #warning {
+      margin: 20px auto 0 auto;
+      font-size: 1.15rem;
+      color: #c33;
+      font-weight: 700;
+      text-align: center;
+      display: none;
+      user-select: none;
+    }
+    /* Animasi confetti */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #ff6f91;
+      opacity: 0.8;
+      animation-name: confetti-fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+      top: -10px;
+      border-radius: 2px;
+      filter: drop-shadow(0 0 1px #ff6f91);
+    }
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(600px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+    /* Tab styles */
+    .tab {
+      display: none;
+      animation: fadeInTab 0.5s ease forwards;
+    }
+    .tab.active {
+      display: block;
+    }
+    @keyframes fadeInTab {
+      from {opacity: 0; transform: translateX(20px);}
+      to {opacity: 1; transform: translateX(0);}
+    }
+    /* Navigation buttons container */
+    #tabNav {
+      text-align: center;
+      margin-top: 15px;
+    }
+    /* Emot Selamat Ulang Tahun Animasi */
+    #emotAnimation {
+      margin-top: 30px;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #ff4d6d;
+      text-align: center;
+      user-select: none;
+      animation: bounceEmot 2.5s ease-in-out infinite;
+    }
+    @keyframes bounceEmot {
+      0%, 100% {
+        transform: translateY(0);
+        color: #ff4d6d;
+        text-shadow: 0 0 10px #ff4d6d88;
+      }
+      50% {
+        transform: translateY(-20px);
+        color: #ff7a9b;
+        text-shadow: 0 0 20px #ff7a9bcc;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Isi dulu yaw 😊</h1>
+
+  <form id="infoForm" autocomplete="off">
+    <label for="name">Nama:</label>
+    <input type="text" id="name" required placeholder="Isi namamu di sini..." />
+
+    <label for="birthdate">Tanggal Lahir:</label>
+    <input type="date" id="birthdate" required max="" />
+    
+    <label for="gender">Gender:</label>
+    <select id="gender" required>
+      <option value="">Pilih Gender</option>
+      <option value="laki-laki">Laki-laki</option>
+      <option value="perempuan">Perempuan</option>
+    </select>
+
+    <button type="submit">Lanjut</button>
+  </form>
+
+  <section id="questionnaire">
+    <h2>Kuesioner Singkat</h2>
+    <form id="quizForm">
+
+      <!-- Tab 1 -->
+      <div class="tab active" data-tab="0">
+        <label>Apa kamu suka jajan?</label>
+        <div class="radio-group" id="q1">
+          <label><input type="radio" name="q1" value="ya" required /> Ya</label>
+          <label><input type="radio" name="q1" value="tidak" /> Tidak</label>
+        </div>
+      </div>
+
+      <!-- Tab 2 -->
+      <div class="tab" data-tab="1">
+        <label>Apa kamu suka seblak?</label>
+        <div class="radio-group" id="q2">
+          <label><input type="radio" name="q2" value="ya" required /> Ya</label>
+          <label><input type="radio" name="q2" value="tidak" /> Tidak</label>
+        </div>
+      </div>
+
+      <!-- Tab 3 -->
+      <div class="tab" data-tab="2">
+        <label>Apa kamu suka menabung?</label>
+        <div class="radio-group" id="q3">
+          <label><input type="radio" name="q3" value="ya" required /> Ya</label>
+          <label><input type="radio" name="q3" value="tidak" /> Tidak</label>
+        </div>
+      </div>
+
+      <div id="tabNav">
+        <button type="button" id="prevBtn" disabled>Previous</button>
+        <button type="button" id="nextBtn">Next</button>
+        <button type="submit" id="submitBtn" style="display:none;">Submit</button>
+      </div>
+
+    </form>
+    <div id="warning">yang bener? jangan boong 😏</div>
+  </section>
+
+  <section id="result">
+    <h2>Ucapan untukmu 🎉</h2>
+    <div id="resultText"></div>
+    <div id="emotAnimation" style="display:none;">🎉🎂🎈 Selamat Ulang Tahun! 🎈🎂🎉</div>
+  </section>
+
+  <script>
+    (function setMaxBirthdate() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('birthdate').setAttribute('max', today);
+    })();
+
+    function calculateAge(birthdate) {
+      const today = new Date();
+      const birthDate = new Date(birthdate);
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
+    }
+
+    let userInfo = { name: null, birthdate: null, gender: null };
+
+    const infoForm = document.getElementById('infoForm');
+    const questionnaire = document.getElementById('questionnaire');
+    const resultSection = document.getElementById('result');
+    const resultText = document.getElementById('resultText');
+    const warning = document.getElementById('warning');
+    const emotAnimation = document.getElementById('emotAnimation');
+
+    infoForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const birthdate = document.getElementById('birthdate').value;
+      const gender = document.getElementById('gender').value;
+
+      if (!name) {
+        alert('Silakan isi nama terlebih dahulu!');
+        return;
+      }
+      if (!birthdate || !gender) {
+        alert('Silakan isi tanggal lahir dan gender terlebih dahulu!');
+        return;
+      }
+
+      userInfo.name = name;
+      userInfo.birthdate = birthdate;
+      userInfo.gender = gender;
+
+      infoForm.style.display = 'none';
+      questionnaire.style.display = 'block';
+
+      createConfetti(30);
+
+      setTimeout(() => {
+        questionnaire.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    });
+
+    // Confetti animation on questionnaire
+    function createConfetti(count) {
+      for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.backgroundColor = randomColor();
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.width = (5 + Math.random() * 10) + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.animationDuration = (3 + Math.random() * 2) + 's';
+        confetti.style.animationDelay = (Math.random() * 5) + 's';
+        confetti.style.borderRadius = (Math.random() > 0.5) ? '50%' : '2px';
+        questionnaire.appendChild(confetti);
+
+        confetti.addEventListener('animationend', () => {
+          confetti.remove();
+          createConfetti(1);
+        });
+      }
+    }
+
+    function randomColor() {
+      const colors = ['#ff6f91', '#ff9671', '#ffc75f', '#d65db1', '#845ec2', '#4fc3f7', '#00b8a9'];
+      return colors[Math.floor(Math.random() * colors.length)];
+    }
+
+    // Tab navigation logic
+    const tabs = Array.from(document.querySelectorAll('#quizForm .tab'));
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const quizForm = document.getElementById('quizForm');
+    let currentTab = 0; // index 0
+
+    function showTab(index) {
+      tabs.forEach((tab, i) => {
+        tab.classList.toggle('active', i === index);
+      });
+      prevBtn.disabled = (index === 0);
+
+      if (index === tabs.length - 1) {
+        nextBtn.style.display = 'none';
+        submitBtn.style.display = 'inline-block';
+      } else {
+        nextBtn.style.display = 'inline-block';
+        submitBtn.style.display = 'none';
+      }
+      validateCurrentTab();
+    }
+
+    function validateCurrentTab() {
+      const currentInputs = tabs[currentTab].querySelectorAll('input[type="radio"]');
+      let checked = false;
+      currentInputs.forEach(inp => { if (inp.checked) checked = true; });
+      if (currentTab === tabs.length - 1) {
+        submitBtn.disabled = !checked;
+      } else {
+        nextBtn.disabled = !checked;
+      }
+    }
+
+    tabs.forEach(tab => {
+      const radios = tab.querySelectorAll('input[type="radio"]');
+      radios.forEach(radio => {
+        radio.addEventListener('change', validateCurrentTab);
+      });
+    });
+
+    prevBtn.addEventListener('click', () => {
+      if (currentTab > 0) {
+        currentTab--;
+        showTab(currentTab);
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentTab < tabs.length - 1) {
+        currentTab++;
+        showTab(currentTab);
+      }
+    });
+
+    showTab(currentTab);
+
+    let warningShown = false;
+
+    quizForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const q3answer = quizForm.q3.value;
+
+      if (q3answer === 'ya' && !warningShown) {
+        warning.style.display = 'block';
+        warningShown = true;
+        warning.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      showGreeting();
+    });
+
+    function showGreeting() {
+      const age = calculateAge(userInfo.birthdate);
+      let greeting = `Barakallahu fi umrik! `;
+
+      if (userInfo.gender === 'laki-laki') {
+        greeting += `${userInfo.name}, ganteng! Selamat ulang tahun! Semoga Allah SWT senantiasa melimpahkan umur yang berkah, kesehatan yang melimpah, rezeki yang halal dan cukup, gak perlu minta-minta uang jajan terus 😄, serta selalu dalam lindungan dan kasih sayang-Nya.`;
+      } else {
+        greeting += `${userInfo.name}, cantik! Selamat ulang tahun! Semoga Allah SWT senantiasa melimpahkan umur yang berkah, kesehatan yang melimpah, rezeki yang halal dan cukup, gak perlu minta-minta uang jajan terus 😄, serta selalu dalam lindungan dan kasih sayang-Nya.`;
+      }
+
+      greeting += ` Semoga makin dewasa, makin sabar, dan makin rajin menabung… bukan malah nambah jajan seblak tiap sore dan cekout Shopee tiap tanggal kembar! 😆 Ingat, dompet juga butuh napas ya~`;
+      greeting += ` Doaku, semoga hidupmu penuh keberkahan, langkahmu dimudahkan, dan impian-impianmu diridhoi oleh Allah SWT. Aamiin ya Rabbal ‘alamin.`;
+
+      resultText.textContent = `Umur: ${age} tahun\n\n${greeting}`;
+
+      const confettis = questionnaire.querySelectorAll('.confetti');
+      confettis.forEach(c => c.remove());
+
+      questionnaire.style.display = 'none';
+      emotAnimation.style.display = 'block';
+      resultSection.style.display = 'block';
+
+      setTimeout(() => {
+        resultSection.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  </script>
+
+</body>
+</html>
+
+
+
+
+
